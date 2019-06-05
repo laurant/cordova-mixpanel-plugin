@@ -12,5 +12,6 @@
 
 + (NSDictionary *)collectDeviceProperties;
 + (NSString *)systemVersion;
++ (NSString *)watchModel;
 
 @end

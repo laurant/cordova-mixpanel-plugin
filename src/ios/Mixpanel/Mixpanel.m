@@ -1401,26 +1401,11 @@ typedef NSDictionary*(^PropertyUpdate)(NSDictionary*);
 
 - (NSString *)watchModel
 {
-    NSString *model = nil;
-    Class WKInterfaceDeviceClass = NSClassFromString(@"WKInterfaceDevice");
-    if (WKInterfaceDeviceClass) {
-        SEL currentDeviceSelector = NSSelectorFromString(@"currentDevice");
-        id device = ((id (*)(id, SEL))[WKInterfaceDeviceClass methodForSelector:currentDeviceSelector])(WKInterfaceDeviceClass, currentDeviceSelector);
-        SEL screenBoundsSelector = NSSelectorFromString(@"screenBounds");
-        if (device && [device respondsToSelector:screenBoundsSelector]) {
-            NSInvocation *screenBoundsInvocation = [NSInvocation invocationWithMethodSignature:[device methodSignatureForSelector:screenBoundsSelector]];
-            [screenBoundsInvocation setSelector:screenBoundsSelector];
-            [screenBoundsInvocation invokeWithTarget:device];
-            CGRect screenBounds;
-            [screenBoundsInvocation getReturnValue:(void *)&screenBounds];
-            if (screenBounds.size.width == 136.0f) {
-                model = @"Apple Watch 38mm";
-            } else if (screenBounds.size.width == 156.0f) {
-                model = @"Apple Watch 42mm";
-            }
-        }
-    }
-    return model;
+    #if defined(MIXPANEL_WATCHOS)
+        return [MixpanelWatchProperties watchModel];
+    #else
+        return nil;
+    #endif
 }
 
 - (NSString *)IFA
