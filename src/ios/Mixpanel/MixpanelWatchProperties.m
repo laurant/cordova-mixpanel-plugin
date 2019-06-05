@@ -14,34 +14,21 @@
 + (NSDictionary *)collectDeviceProperties {
     NSMutableDictionary *mutableProperties = [NSMutableDictionary dictionaryWithCapacity:5];
 
-    WKInterfaceDevice *device = [WKInterfaceDevice currentDevice];
-    mutableProperties[@"$os"] = [device systemName];
-    mutableProperties[@"$os_version"] = [device systemVersion];
+    mutableProperties[@"$os"] = @"watchOS";
+    mutableProperties[@"$os_version"] = @"2.0";
     mutableProperties[@"$watch_model"] = [self watchModel];
-
-    CGSize screenSize = device.screenBounds.size;
-    mutableProperties[@"$screen_width"] = @(screenSize.width);
-    mutableProperties[@"$screen_height"] = @(screenSize.height);
+    mutableProperties[@"$screen_width"] = @(136.f);
+    mutableProperties[@"$screen_height"] = @(170.f);
 
     return [mutableProperties copy];
 }
 
 + (NSString *)watchModel {
-    static const CGFloat kAppleWatchScreenWidthSmall = 136.f;
-    static const CGFloat kAppleWatchScreenWidthLarge = 152.f;
-
-    CGFloat screenWidth = [WKInterfaceDevice currentDevice].screenBounds.size.width;
-    if (screenWidth <= kAppleWatchScreenWidthSmall) {
-        return @"Apple Watch 38mm";
-    } else if (screenWidth <= kAppleWatchScreenWidthLarge) {
-        return @"Apple Watch 42mm";
-    }
-
     return @"Apple Watch";
 }
 
 + (NSString *)systemVersion {
-    return [WKInterfaceDevice currentDevice].systemVersion;
+    return @"2.0";
 }
 
 @end
