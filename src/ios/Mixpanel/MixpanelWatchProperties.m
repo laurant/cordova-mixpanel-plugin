@@ -7,7 +7,6 @@
 //
 
 #import "MixpanelWatchProperties.h"
-#import <WatchKit/WatchKit.h>
 
 @implementation MixpanelWatchProperties
 
